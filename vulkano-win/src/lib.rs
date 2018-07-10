@@ -121,7 +121,7 @@ unsafe fn winit_to_surface(instance: Arc<Instance>, win: winit::Window)
     Surface::from_anativewindow(instance, win.get_native_window(), win)
 }
 
-#[cfg(all(unix, not(target_os = "android"), not(target_os = "macos")))]
+#[cfg(all(unix, not(target_os = "android"), not(target_os = "ios"), not(target_os = "macos")))]
 unsafe fn winit_to_surface(instance: Arc<Instance>, win: winit::Window)
                            -> Result<Arc<Surface<winit::Window>>, SurfaceCreationError> {
     use winit::os::unix::WindowExt;
@@ -156,6 +156,13 @@ unsafe fn winit_to_surface(instance: Arc<Instance>, win: winit::Window)
                        ptr::null() as *const (), // FIXME
                        win.get_hwnd(),
                        win)
+}
+
+#[cfg(target_os = "ios")]
+unsafe fn winit_to_surface(instance: Arc<Instance>, win: winit::Window)
+                           -> Result<Arc<Surface<winit::Window>>, SurfaceCreationError> {
+    use winit::os::ios::WindowExt;
+    Surface::from_ios_moltenvk(instance, win.get_uiview(), win)
 }
 
 #[cfg(target_os = "macos")]
