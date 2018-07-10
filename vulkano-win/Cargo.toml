@@ -9,7 +9,7 @@ categories = ["rendering::graphics-api"]
 
 [dependencies]
 vulkano = { version = "0.9.0", path = "../vulkano" }
-winit = "0.16.0"
+winit = { git = "https://github.com/BrainiumLLC/winit", branch = "ios_metal_support", features = ["ios_metal"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 metal-rs = "0.6"
